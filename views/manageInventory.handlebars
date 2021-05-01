@@ -1,0 +1,138 @@
+ <style>
+        .manageInventoryBtn{
+        background-color: #009DFF;
+        color: white;
+        transition: all ease-in 0.2s;
+        }
+
+         .manageInventoryBtn:hover{
+        background-color: #009DFF;
+        color: white;
+        transition: all ease-in 0.2s;
+        }
+    </style>
+
+
+<div class="adminDashboard-container">
+
+{{> adminpagesidebar }}
+
+<div class="manage-inventory-right-panel">
+
+    <div class="addItemAdded"><h2>Items In Stock</h2> <a class="addItem" href="#">Add item <i class="fas fa-plus"></i></a></div>
+
+    <div class="itemsInStock">
+        <div class="itemsInStockTableDescription">
+            <h5 style="padding: 0 5px">Item</h5>
+            <h5>Unit Price </h5>
+            <h5>Qty</h5>
+            {{!-- <h5></h5> --}}
+            {{!-- <h5></h5> --}}
+        </div>
+        
+        {{#each response}}
+            <div class="itemsInStockRow" >
+            <h5 style="padding: 0 5px">{{name}}</h5>
+            {{!-- <h5></h5> --}}
+            {{!-- <h5></h5> --}}
+            <h5>{{price}}</h5>
+            <h5>{{qty}}</h5>
+            <a class="{{ id }}_{{name}}_{{price}}_{{qty}}_ editBtn" href="#">Edit</a>
+            <a class="delInItem" style="justify-self: center;" href="/deleteInventory/{{_id}}"><i style="color: rgb(246, 56, 56);" class="fas fa-times deli" alt='delete item'></i></a>
+        </div>
+        {{/each}}
+    
+    </div>
+
+</div>
+
+</div>
+
+<div class="editModalContainer">
+    <div class="editModal" >
+        <form class="editInventoryItemForm" action="/editInventoryItem" method="post">
+            <input placeholder="Item Name" class="inpName inp" type="text" name="name" id="">
+            <input placeholder="Price" class="inpPrice inp" type="number" name="price" step=".01" id="">
+            <input hidden class="inpID inp" type="price" name="id" id="">
+            <input placeholder="Quantity" class="inpQty inp" type="number" name="qty" id="">
+            <div class="btns "><a style="text-decoration: none;color:rgb(246, 56, 56)" class="cancelEdit" href="#">Cancel</a> <input class="btnsub" type="submit" value="Update"></div>
+        </form>
+    </div>
+</div>
+
+<div class="addItemModalContainer">
+    <div class="addItemModal" >
+        <form class="addInventoryItemForm" action="/addInventoryItem" method="post">
+            <input required class="inpName inp" type="text" name="name" id="" placeholder="Name of Item">
+            <input required class="inpPrice inp" type="text" name="price" id="" placeholder="price">
+            <input required class="inpQty inp" type="number" name="qty" id="" min="1" placeholder="Quantity">
+            <div class="btns "><a style="text-decoration: none;color:rgb(246, 56, 56)" class="cancelAddItem" href="#">Cancel</a> <input class="btnsub" type="submit" value="Add Item"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+     function Select(element){
+            return document.querySelector(element)
+        }
+
+    function SelectAll(element){
+        return document.querySelectorAll(element)
+    }
+
+    document.addEventListener("DOMContentLoaded", e=>{
+        if(!sessionStorage.getItem('loggedInStatus')){
+       location.replace('/')
+
+        console.log('a')
+    }   
+        let itemsinRow = SelectAll('.itemsInStockRow')
+            itemsinRow = Array.from(itemsinRow)
+
+            itemsinRow.forEach((item)=>{
+                
+                let itemChildren = item.children
+                console.log(itemChildren[2])
+            
+                if(itemChildren[2].textContent- 0 < 1){
+                   itemChildren[2].parentElement.style.border = '1px solid #ffd1d1'
+                }
+
+            })
+           // console.log(SelectAll('.itemsInStockRow')[0].children[2].textContent)
+
+    })
+
+    document.addEventListener("click", e =>{
+       
+
+        if(e.target.classList.contains('editBtn')){
+            console.log(e.target.className.split("_"))
+
+            let props = e.target.className.split("_")
+
+            Select('.inpID').value = props[0]
+            Select('.inpName').value = props[1]
+            Select('.inpPrice').value = props[2]
+            Select('.inpQty').value = props[3]
+            Select('.editModalContainer').style.display = 'grid'
+        }
+
+        Select('.cancelEdit').addEventListener("click", e=>{
+            Select('.editModalContainer').style.display = 'none'
+        })
+
+        if(e.target.classList.contains('addItem')){
+            Select(".addItemModalContainer").style.display = "grid"
+
+
+              Select('.cancelAddItem').addEventListener("click", e=>{
+            Select('.addItemModalContainer').style.display = 'none'
+        })
+            
+        }
+    })
+
+    
+
+</script>

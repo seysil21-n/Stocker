@@ -1,0 +1,21 @@
+{{#if success_message}}
+    <div class="messageContainer"><p class="successMessage">{{success_message}}</p></div>
+{{/if}}
+
+{{#if error_message}}
+    <div class="messageContainer"><p class="errorMessage">{{error_message}}</p></div>
+{{/if}}
+
+<script>
+    if(document.querySelector(".messageContainer") !== null){
+            if(document.querySelector(".messageContainer").style.display = "grid"){
+        setTimeout(()=>{
+            document.querySelector(".messageContainer").style.display = "none"
+        }, 5000)
+    }
+    }
+    
+    
+
+
+</script>

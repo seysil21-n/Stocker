@@ -1,0 +1,41 @@
+    <style>
+        .createAccountBtn{
+        background-color: #009DFF;
+        color: white;
+        transition: all ease-in 0.2s;
+        }
+
+        .createAccountBtn:hover{
+        background-color: #32b0ff;
+        color: white;
+        transition: all ease-in 0.2s;
+        }
+    </style>
+
+    <div class="adminDashboard-container">
+
+        {{> adminpagesidebar}}
+
+        <div class="right-panel-createAccount">
+           <div class="right-panel-header"> <h2 >Create Account</h2> </div> 
+
+           <form  class="createAccountForm" action="/createAccount" method="POST">
+           <input required class="inp-control" type="text" name="oid" placeholder="Attendant ID">
+           <input required class="inp-control" type="text" name="password" placeholder="Password">
+           <div class="checkField" style="align-self: center;" ><input class="checkbox" name="asAdmin" type="checkbox" name="" id=""> Add as Administrator</div>
+           <input class="submitBtn btn" type="submit" value="Create Account" name="" id="">
+           
+           
+           </form>
+
+           
+        </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", e=>{
+        if(!sessionStorage.getItem('loggedInStatus')){
+       location.replace('/')
+    }   
+    })
+</script>

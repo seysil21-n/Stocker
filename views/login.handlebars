@@ -1,0 +1,61 @@
+{{#if errorMessage}}
+    <div class="errorMessageContainer" style="position:fixed;display: grid; place-content:center; width: 100%; height:200px">
+      
+       <p  style="border:1px solid #E2E2E2;color: rgb(255, 117, 117); background-color:#F2F2F2; padding: 20px 30px">{{errorMessage}} <i style=" cursor: pointer;" class="times fas fa-times"></i></p>  
+    
+    </div>
+{{/if}}
+
+<div class="login-container">
+
+    <form class="form-control toUsersRoute" action="/users" method="POST">
+ 
+        <h1 class="logo">Stocker</h1>
+        
+        <input type="text" class="inp-control" required name="oid" value='{{id}}' placeholder="ID" id="">
+        <input type="password" class="inp-control" required value='{{password}}' name="password" placeholder="Password" id="">
+
+        <div class="checkField">
+            <input type="checkbox"   class="inp-control checkbox"  name="asAdmin" > 
+            <input type="text" value="" hidden>
+            <p>Login as Administrator</p>
+         </div> 
+    
+         <input type="submit"  value="Login" class="btn submitBtn">
+
+    </form>
+
+</div>      
+
+
+<script>
+    /* document.addEventListener("DOMContentLoaded", ()=>{
+    
+            if(sessionStorage.getItem("loggedInStatus") == "asAdmin"){
+            location.replace("http://127.0.0.1:4000/adminDashboard")
+            console.log("loaded")
+            }
+    
+        
+    }) */
+
+
+    let checkbox = document.querySelector(".checkbox")
+    let formToUsersRoute = document.querySelector(".toUsersRoute")
+    let submitForm = document.querySelector(".submitBtn")
+
+    document.addEventListener("click", e=>{
+
+        if(e.target.classList.contains("times")){
+            document.querySelector(".errorMessageContainer").remove()
+        }
+
+       
+    })
+
+    
+    
+    
+
+
+</script>

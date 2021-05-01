@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocker</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/fontawesome-free-5.15.2-web/css/all.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/adminDashboard.css">
+    <link rel="stylesheet" href="/css/createAccount.css">
+    <link rel="stylesheet" href="/css/manageInventory.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue';
+        }
+
+        .messageContainer{
+            width: 400px;
+            height: 200px;
+            display: grid;
+            grid-template-rows: 70px;
+            position: absolute;
+            justify-items: center;
+            align-items: center;
+            bottom: 0;
+            padding: 20px;
+            animation-name: animateNotification;
+            animation-duration: 1s;
+            animation-delay: 4s;
+
+        }
+
+        .successMessage, .errorMessage{
+            color: white;
+            width: 100%;
+            padding: 20px 20px;
+            border-radius: 5px;
+        }
+
+        .errorMessage{
+            background-color: rgb(222, 0, 0);
+        }
+
+        .successMessage{
+            background-color: rgb(46, 176, 46);
+        }
+
+        @keyframes animateNotification{
+            0%  {
+                  transform: translateX(0px);
+                  opacity: 1;
+            }
+            100%  {
+                  transform: translateX(-100px);
+                  opacity: 0;
+            }
+        }
+       
+        @keyframes animateModal{
+            0%  {
+                  transform: translateY(-100px);
+                  opacity: 0;
+            }
+            100%  {
+                  transform: translateY(0px);
+                  opacity: 1;
+            }
+        }
+
+        @keyframes animateLanding{
+            0%  {
+                  transform: scale(1.1);
+                  opacity: 0.5;
+            }
+            100%  {
+                  transform: scale(1);
+                  opacity: 1;
+            }
+        }
+
+        /* @keyframes animateLanding{
+            0%  {
+                  transform: translateX(-100px);
+                  opacity: 0.5;
+            }
+            100%  {
+                  transform: translateX(0px);
+                  opacity: 1;
+            }
+        } */
+
+    </style>
+    <script src="https://kit.fontawesome.com/1b1d84b320.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+</head>
+<body>
+    {{!-- {{> messages}} --}}
+    {{{body}}}
+
+
+</body>
+</html>

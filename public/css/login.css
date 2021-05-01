@@ -1,0 +1,65 @@
+:root {
+    --fadedGray: #848484;
+    --btnPrimary: #414141; 
+  }
+
+.login-container{
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.form-control{
+    display: grid;
+    width: 400px;
+    height: 400px;
+    grid-gap: 10px;
+    grid-template-rows: 1fr 1fr 1fr 50px 1fr;
+    /* justify-items: ; */
+}
+
+.logo{
+    color: #009DFF;
+    justify-self: center;
+    align-self: center;
+}
+
+.checkField{
+    display: grid;
+    /* padding: 10px; */
+    grid-template-columns: 35px 1fr;
+    align-items: center;
+    color: var(--fadedGray);
+    
+}
+
+.checkbox{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.inp-control{
+    padding: 20px;
+    font-size: 1rem;
+}
+
+.btn{
+    background-color: var(--btnPrimary);
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+ .inp-control:focus, .inp-control:active, .inp-control:visited{
+    /* outline: 2px solid #c9c9c9; */
+    box-shadow: 0px 10px 10px rgb(241, 241, 241);
+    transition: all 0.2s ease-in;
+
+}
+
+.btn:hover{
+    background-color: #767676;
+}

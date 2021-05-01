@@ -1,0 +1,33 @@
+
+<div class="adminDashboard-container">
+
+{{> adminpagesidebar }}
+
+<div class="manage-inventory-right-panel">
+    <div class="right-panel-header"><h2>Daily Sales</h2></div>
+    
+    <div class="itemsInStock">
+        <div class="itemsInStockTableDescription">
+            <h5 style="padding: 0 5px">Sale</h5>
+            <h5>Date</h5>
+            <h5></h5>
+            {{!-- <h5></h5> --}}
+            {{!-- <h5></h5> --}}
+        </div>
+        
+        {{#each response}}
+            <div class="itemsInStockRow" >
+            <h5 style="padding: 0 5px">{{name}}</h5>
+            {{!-- <h5></h5> --}}
+            {{!-- <h5></h5> --}}
+            <h5>{{price}}</h5>
+            <h5>{{qty}}</h5>
+            <a class="{{ id }}_{{name}}_{{price}}_{{qty}}_ editBtn" href="#">Edit</a>
+            <a class="delInItem" style="justify-self: center;" href="/deleteInventory/{{_id}}"><i style="color: rgb(246, 56, 56);" class="fas fa-times deli" alt='delete item'></i></a>
+        </div>
+        {{/each}}
+    
+    </div>
+
+</div>
+</div>

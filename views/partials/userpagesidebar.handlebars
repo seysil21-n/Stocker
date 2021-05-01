@@ -1,0 +1,73 @@
+<style>
+.left-panel-dashboard{
+    grid-template-rows: 100px 50px 200px 50px 50px;
+}
+
+.leftPanelBtn-dashboard{
+    grid-template-rows: 50px 1fr;
+    align-items: center;
+        background-color: rgb(238, 248, 255);
+    color: #535353;
+    border: 1px solid rgb(196, 196, 196);
+}
+
+.dailySale{
+    justify-self: center;
+    grid-column: 1/3;
+    color: rgb(0, 125, 0);
+    font-size: 3rem;
+}
+</style>
+
+<div class="panels left-panel left-panel-dashboard">
+           
+            <div class="avartar">
+                
+                <p style="color: rgb(178, 178, 178)"> logged in as</p>
+                <h4 class="userType">{{user_type}}</h4>
+            
+            </div>
+
+            <a href="/dashboard" class="leftPanelBtn makeSale"><i style="justify-self: end;" class="fas fa-cash-register"></i> <h5 style="justify-self: start;">Make Sale</h5></a>
+            <div href="#" class="leftPanelBtn leftPanelBtn-dashboard quickItems"><i style="justify-self: end;" class="fas fa-bolt"></i></i> <h5 style="justify-self: start;">Sales Made</h5>
+                <h1 class="dailySale">0.00</h1>
+                 </div>
+            <a href="/" class="leftPanelBtn logoutBtn"><i style="justify-self: end;" class="fas fa-sign-out-alt"></i> <h5 style="justify-self: start;">Logout</h5></a>
+ </div>
+     {{> messages}}
+
+ 
+ <script>
+            document.addEventListener('click', e =>{
+                   if(e.target.classList.contains('logoutBtn')){
+                    sessionStorage.removeItem('userType')
+                   }
+               })
+
+            document.addEventListener("click", e=> { 
+                if(e.target.classList.contains("logoutBtn")){
+                    
+                    let dailySale = {
+                        dailySale: sessionStorage.getItem('salesMade'),
+                        date: new Date(Date.now()).toLocaleString()
+                    }
+
+                    fetch('/dailySales', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        redirect: 'follow',
+                        body: JSON.stringify(dailySale)
+                    })
+                    .then(res => res.text()).catch(err=> {if (err) throw err})
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch((err)=> {if (err) throw err})
+                }
+            })
+
+
+            
+</script>

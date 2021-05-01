@@ -1,0 +1,68 @@
+   <style>
+        .salesBtn{
+        background-color: #009DFF;
+        color: white;
+        transition: all ease-in 0.2s;
+        }
+
+          .salesBtn:hover{
+        background-color: #32b0ff;
+        color: white;
+        transition: all ease-in 0.2s;
+        }
+    </style>
+  
+    <div class="adminDashboard-container">
+
+        {{> adminpagesidebar}}
+        <div class="panels right-panel">
+            {{!-- {{response}} --}}
+
+            <div class="right-panel-header"><h2>Sales</h2></div>
+
+            {{#each response}} 
+            <div class="each-sale-container">
+            <div class="each-item-sale-container">
+                {{#each []}}
+                <div class="item-in-sale"><h4>{{itemName}}</h4> <h4>{{grandPrice}}</h4> <h4>{{qty}}</h4></div>
+                {{/each}}
+            </div>
+            <div class="sale-details">
+                <p>Grand Total: {{0.grandTotal}}</p>
+                <p>Date: {{0.dateDay}}/{{0.dateMonth}}/{{0.dateYear}} {{0.dateHours}}:{{0.dateMinutes}}</p>
+                <p>Attendant: {{0.attendant}}</p>
+            </div>
+            </div>
+            {{!-- {{/each}} --}}
+            {{/each}}
+        </div>
+            <p class="aa">{{authA}}</p>
+    </div>
+
+
+    <script>
+        
+        /* document.addEventListener("DOMContentLoaded", e=>{
+       
+        }) */
+
+        document.addEventListener('DOMContentLoaded', (e)=>{
+
+             if(document.querySelector('.aa').textContent.length < 1 && !sessionStorage.getItem('loggedInStatus')){
+                location.replace('/')
+             }
+
+            else{
+                     sessionStorage.setItem("loggedInStatus", 'asAdmin')
+                     document.querySelector('.aa').textContent = 'a'
+                 }
+                      
+            
+        })
+
+        
+  
+
+      
+
+    </script>

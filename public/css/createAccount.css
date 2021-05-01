@@ -1,0 +1,31 @@
+
+
+.right-panel-createAccount{
+    padding: 50px;
+    display: grid;
+    grid-template-rows: 70px 1fr ;
+    align-items: center;
+    width: 100%;
+    /* grid-auto-rows: 300px; */
+    grid-row-gap: 20px;
+    /* position: fixed; */
+    overflow: auto;
+    animation-name: animateLanding;
+    animation-duration: 0.3s ;
+    transition: ease-in-out;
+}
+
+.createAccountForm{
+    display: grid;
+    grid-template-rows: repeat(5, 70px);
+    width: 400px;
+    justify-self: center;
+    grid-gap: 10px;
+    /* place-content: center; */
+    /* justify-items: center; */
+    /* align-items: center; */
+}
+
+.inp-control{
+    border: 1px solid #c1c1c1;
+}

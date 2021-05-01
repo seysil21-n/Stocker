@@ -1,0 +1,399 @@
+  <style>
+        .makeSale{
+        background-color: #009DFF;
+        color: white;
+        transition: all ease-in 0.2s;
+        }
+
+        .makeSale:hover{
+        background-color: #009DFF;
+        color: white;
+        transition: all ease-in 0.2s;
+        }
+    </style>
+  
+  <div class="adminDashboard-container">
+
+        {{> userpagesidebar}}
+
+        <div class="panels makeSalePanel">
+            <div class="searchStockContainer">
+                <label for="ss" class="searchStocksHeader">Find Item</label>
+                <input placeholder="Search" id="ss" type="search" name="searchStocks" class="searchStocks">
+               
+                <div class="showOnInput">
+                    {{#each response}}
+                        <div class="stockItem {{_id}} {{name}} {{price}} {{qty}}">
+                            <h5 data-id="{{_id}}" data-name="{{name}}" data-price="{{price}}" data-qty="{{qty}}" class="itemRow {{_id}} {{name}} {{price}} {{qty}}" style="padding-left: 5px;padding-top: 15px;padding-bottom: 15px;">{{name}}</h5>
+                        </div>
+                    {{/each}}
+                </div>
+            
+            </div>
+
+            <div class="itemsToSell">
+                
+                <div style="" class="itemDetails">
+                    <h5 style="padding-left: 5px ;">Item</h5>
+                    <h5>Unit Price</h5>
+                    <h5>Price</h5>
+                    <h5>Qty</h5>
+                </div>
+
+                {{!-- <div class="itemDetailsAdded">
+                    <h5 style="grid-column: 1/2;padding-left: 5px ;">Item</h5>
+                    <h5>Unit Price</h5>
+                    <h5>Price</h5>
+                    <input value="1" class="eachSaleQty" type="number" placeholder="Qty">
+                    <a class="removeItem" style="justify-self:center" href="#"><i style="color: rgb(246, 56, 56);" class="fas fa-times"></i></a></a>
+                </div> --}}
+               
+
+
+            </div>
+
+            <div  class="checkOutContainer">
+                <h4 class="grandTotal">Grand Total</h4>
+                <h4 class="grandTotalInFigures">0.00</h4>
+                <button class="checkOutBtn">Checkout</button>
+            </div>
+
+
+        </div>
+  </div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", e=>{
+        if(!sessionStorage.getItem('userType')){
+       location.replace('/')
+    }   
+    if(!sessionStorage.getItem('salesMade')){
+        sessionStorage.setItem("salesMade", 0)
+        console.log('a')
+    }else{
+        sessionStorage.setItem('salesMade', sessionStorage.getItem('salesMade'))
+    }
+
+        document.querySelector('.dailySale').textContent = sessionStorage.getItem('salesMade')
+    })
+    
+
+    let userType =    document.querySelector(".userType").textContent
+
+    if(userType.length > 0){
+            sessionStorage.setItem("userType", userType)
+            sessionStorage.setItem("salesMade", 0)
+    }
+
+    if(userType.length < 1){
+        document.querySelector(".userType").textContent = sessionStorage.getItem("userType")
+    }
+
+
+
+    // logic
+    let searchBar = document.querySelector(".searchStocks")
+    let showSearchOnInput = document.querySelector(".showOnInput")
+    let itemRow = document.querySelectorAll('.itemRow')
+    let itemNameArr= []
+    let rowContent;
+    let rowObj;   
+     /* console.log(itemRow[0].textContent.split(' '))  */
+  
+    function showSearchResults(searchBar, showSearchOnInput){
+        searchBar.addEventListener('input', e=> {
+            //console.log(searchBar.value)
+
+            itemRow.forEach(row=>{
+                //console.log(row.textContent)
+            // if(row.textContent.indexOf(searchBar.value) !== -1){
+            // row.style.display = "grid"
+            // }
+
+            // if(searchBar.value.indexOf(row.textContent) !== -1){
+            //    console.log(row.textContent)
+            // }
+
+            // check to see if search Bar input is populated and matches items in stock
+           // console.log(row.textContent.indexOf(searchBar.value))
+            if(row.textContent.toLowerCase().indexOf(searchBar.value.toLowerCase()) != -1 && searchBar.value.length > 0 ){
+                row.parentElement.parentElement.style.display = "grid"
+              row.parentElement.style.display = "grid"
+              //console.log(row.parentElement)
+            }
+
+             if(searchBar.value.length < 1){
+                showSearchOnInput.style.display = "none"
+                row.parentElement.style.display = "none"
+            }
+
+            })
+
+
+          
+        })
+
+      
+        
+        searchBar.addEventListener("blur", e =>{
+            setTimeout(()=>{
+              showSearchOnInput.style.display = ""
+
+            }, 300)
+
+          
+        })
+
+       
+    }
+        let itemsToSellObject = {}
+        let itemsToSellAdj = document.querySelector(".itemDetails")
+
+      document.addEventListener('click', e=>{
+         if(e.target.classList.contains('itemRow')){
+            //console.log(e.target.children[0].className.split(' '))
+            let itemDetails = e.target.className.split(' ')
+
+            itemsToSellObject.name = itemDetails[2]
+            itemsToSellObject.id = itemDetails[1]
+            itemsToSellObject.price = itemDetails[3]
+            itemsToSellObject.qty = itemDetails[4]
+            console.log(e.target)
+
+            
+
+            itemsToSellAdj.insertAdjacentHTML('afterend', `<div data-id="${itemsToSellObject.id}" data-qty="" class="itemDetailsAdded"><h5 style="grid-column: 1/2;padding-left: 5px ;">${itemsToSellObject.name}</h5>  <h5 class="eachUnitPrice">${itemsToSellObject.price}</h5>  <h5 class="eachPrice">${itemsToSellObject.price}</h5><input required value="1" min="1" max="${itemsToSellObject.qty}" class="eachSaleQty" type="number" placeholder="Qty"><a class="removeItem" style="justify-self:center" href="#"><i style="color: rgb(246, 56, 56);" class="fas fa-times"></i></a></a> </div>`)
+            
+            //sum on insert
+           let grandPrice = parseFloat(itemsToSellObject.price) 
+           let grandTotal = parseFloat(document.querySelector(".grandTotalInFigures").textContent)
+           let addOnInsert = grandPrice + grandTotal
+
+
+            document.querySelector(".grandTotalInFigures").textContent = addOnInsert.toFixed(2)
+
+
+         }
+        })
+
+        
+  //      document.querySelector(".removeItem").addEventListener("click", e=>{
+    //        e.target.parentElement.parentElement.remove()
+      //  })
+
+
+        // Remove item from the dom 
+        document.addEventListener("click", e =>{
+            if(e.target.parentElement.classList.contains('removeItem')){
+
+                // substract grand price from grand total
+                let each_price = parseFloat(e.target.parentElement.parentElement.querySelector('.eachPrice').textContent)
+                let grandTotal = document.querySelector(".grandTotalInFigures").textContent
+                let subGrand = parseFloat(grandTotal) - each_price
+                document.querySelector(".grandTotalInFigures").textContent = subGrand.toFixed(2)
+
+                console.log("a", grandTotal)
+                e.target.parentElement.parentElement.remove()
+
+
+            }
+        })
+
+    
+
+    
+
+
+        // calculate unit price
+        document.addEventListener("change", e =>{
+
+            // change if qty value is nothing or empty
+            if(e.target.classList.contains('eachSaleQty')){
+                if(e.target.value.length < 1 || e.target.value == 0 ){
+                        e.target.value = 1
+                }
+
+                console.log(e.target.getAttribute('max'))
+
+                if(e.target.value - 0 > e.target.getAttribute('max')){
+                    e.target.value = e.target.getAttribute('max')   
+                }
+
+                let itemQuantity = parseInt(e.target.value)      
+                //console.log(itemQuantity)
+
+                let unitPrice = parseFloat(e.target.parentElement.querySelector(".eachUnitPrice").textContent)
+
+                //console.log(e.target.parentElement.querySelector(".eachUnitPrice"))
+                let grandPrice = (itemQuantity * unitPrice).toFixed(2)
+                
+                e.target.parentElement.querySelector(".eachPrice").textContent = grandPrice
+                
+
+                // add all prices and update the grand total area
+                let grandTotal  = document.querySelector(".grandTotalInFigures")
+
+                let eachPrice = document.querySelectorAll('.eachPrice')
+                let grandSum = 0;
+
+                eachPrice.forEach((price)=>{
+                    let parsedResult = parseFloat(price.textContent)
+
+                    grandSum += parsedResult
+                   // console.log(grandSum)
+                })
+                console.log(grandSum)
+                grandTotal.textContent = grandSum.toFixed(2)
+               // console.log(grandPrice)   
+
+
+                //  console.log(e.target.parentElement.querySelector(".eachUnitPrice"))
+            }
+        })
+
+    
+
+
+        document.addEventListener('click', e=>{
+            if(e.target.classList.contains("checkOutBtn")){
+
+                if(e.target.parentElement.parentElement.querySelector('.itemsToSell').querySelectorAll('.itemDetailsAdded').length < 1){
+                    alert('Add items to catalog')
+                }
+
+                else {
+
+                let itemsAdded = e.target.parentElement.parentElement.querySelector('.itemsToSell').querySelectorAll('.itemDetailsAdded')
+
+                itemsAdded = Array.from(itemsAdded)
+                let prepAll  = []
+                let prepData = {}
+
+                itemsAdded.forEach(item =>{
+                    
+                    //prepData.id = item.dataset.id
+                    // prepData.qty = item.children[3].value
+                    
+                    
+
+                    console.log(item.dataset.id)
+                    prepAll.push({id: item.dataset.id, qty: item.children[3].value
+                     ,  qtyUpdate: parseInt(item.children[3].getAttribute('max')) > 0 ? parseInt(item.children[3].getAttribute('max')) - parseInt(item.children[3].value) : 0
+                     , itemName: item.children[0].textContent 
+                     , grandPrice: item.children[2].textContent 
+                     , attendant: sessionStorage.getItem('userType')
+                     , grandTotal: document.querySelector('.grandTotalInFigures').textContent
+                     , dateYear: new Date(Date.now()).getFullYear(),
+                      stamp: new Date(Date.now()).toLocaleString(),
+                      dateMonth: new Date(Date.now()).getUTCMonth()+1,
+                      dateDay: new Date(Date.now()).getDate(),
+                      dateHours: new Date().getHours(),
+                      dateMinutes: new Date().getMinutes()
+                      
+                  
+                     })
+                     
+                   // console.log(item.dataset.id)
+                     console.log(item.children[3].getAttribute('max'))
+                     console.log(item.children[2].textContent)
+
+
+                })
+
+               
+
+                fetch('/makeSale', {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'text/html',
+                        'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow',
+
+                    body: JSON.stringify(prepAll)
+                    }).then(res=> res.text()).catch(err=>{if (err) throw err})
+                    .then(res => {
+                        console.log(res)
+                        
+                        })
+                    .catch((err)=>{
+                        if(err) throw err
+                    })
+
+                    let grandTS = parseFloat(document.querySelector('.grandTotalInFigures').textContent)
+                   // console.log(parseInt(document.querySelector('.grandTotalInFigures').textContent).toFixed(2))
+                    let salesMadeSS = parseFloat(sessionStorage.getItem('salesMade')) 
+                    sessionStorage.setItem('salesMade', salesMadeSS + grandTS)
+
+                    location.reload()
+
+                    console.log(prepAll)
+
+//                console.log(itemsAdded)
+
+                   // setTimeout(()=>{
+                   //     location.replace('/dashboard')
+                   // }, 2000)
+                    
+            }
+
+            } 
+
+        })
+//                     function setCookie(){
+//                         if(sessionStorage.getItem('userType')){
+//                             let date = Date.now()
+//                             let hours = new Date(date).getHours();
+//                             let day = new Date(date).getDate()
+//                             let min = new Date(date).getMinutes()
+//                             let SM = sessionStorage.getItem('salesMade')
+
+//                             if(localStorage.getItem('dateSet')){
+//                                 let setAlready = localStorage.getItem('dateSet')
+//                                 localStorage.setItem('dateSet', setAlready)     
+                                
+//                                 let Min = JSON.parse(localStorage.getItem('dateSet')).min 
+
+//                                 if(Min < 13){
+// //                                localStorage.removeItem('persistSM')
+//                                 localStorage.removeItem('dateSet')
+//                                 console.log('s')
+//                             }else{
+//                                    setInterval(()=>{
+//                                 localStorage.setItem('persistSM', sessionStorage.getItem('salesMade'))
+//                             }, 1)
+//                             }
+//                             }
+//                             else{
+//                             localStorage.setItem('dateSet', JSON.stringify({date,min}))
+
+//                             }
+                            
+//                             ///console.log(JSON.parse(localStorage.getItem('dateSet')).min)
+//                            // if(!JSON.parse(localStorage.getItem('dateSet')).min < 27){
+//                            //     localStorage.removeItem('persistSM')
+//                             //    console.log('s')
+//                            // }
+
+//                 //            localStorage.setItem('persistSM', SM)
+//                         }
+//                     }
+                    
+//                     setCookie()
+
+//                     function readLocalStorage(){
+
+//                         let persistSM = localStorage.getItem('persistSM')
+//                             persistSM = JSON.parse(persistSM)
+                            
+
+                         
+
+//                     }
+//                     readLocalStorage()
+                    console.log(document.cookie)
+        
+        
+    showSearchResults(searchBar,showSearchOnInput)
+</script>
