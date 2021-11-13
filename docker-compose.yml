@@ -1,0 +1,29 @@
+version: '3'
+services:
+  #web server service 
+  app:
+    container_name: Stocker
+    restart: always #restart if theres an error
+    build: . # build the docker file in the root directory
+    ports: 
+      - "80:4000" # mapping port 3000 on container to host port 80
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    
+  
+  #database service 
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports: 
+      - '27017:27017'
+    volumes:
+      - ./stocker-data:/data/db
+    
+volumes:
+  stocker-data:
+    
+
+    

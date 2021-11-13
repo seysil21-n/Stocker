@@ -13,7 +13,6 @@
     /* box-shadow: 5px 0 5px rgb(234, 234, 234); */
     border-right: 1px solid rgb(242, 242, 242);
     grid-template-rows: 100px 50px 50px 50px 50px;
-    /* grid-template-columns: 400px; */
     padding: 20px;
     height: inherit;
     grid-gap: 20px;

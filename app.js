@@ -45,7 +45,7 @@ app.use(bodyParser.json())
 app.use(express.static("public"))
 
 // connecting to database : Stocker 
-mongoose.connect("mongodb://localhost:27017/Stocker", {useNewUrlParser:true, useUnifiedTopology: true})
+mongoose.connect("mongodb://mongo:27017/Stocker", {useNewUrlParser:true, useUnifiedTopology: true})
 .then(()=>{
     console.log("connected to DB")
 })
@@ -79,14 +79,9 @@ mongoose.model("admin",{
 
 // sales model
 mongoose.model("sales" ,{
-    
-    
     sales: {
         type: Array,
-
     },
-
-    
 }, 'sales')
 
 // stock model
@@ -199,9 +194,13 @@ app.get("/dashboard", (req,res)=>{
 app.get('/adminDashboard', (req,res)=>{
     Sales.find({}).sort()
     .then((response)=>{
-        res.render("adminDashboard", {response: response[0].sales})
-        // console.log(response[0].sales[0][0].itemName)
-        console.log(response[0].sales)
+            console.log(response)
+            res.render("adminDashboard", {response:  response[0].sales})
+
+
+    })
+    .catch(error => {
+        if(error) throw error
     })
 
     
@@ -371,7 +370,7 @@ app.post('/makeSale', (req,res)=>{
     // )
     
     // updated the sales feature to stack new sales att the beginning
-    Sales.update({_id: '6036ced94715752dfe9faa60'},{ $push: {sales: {$each: [req.body], $position: 0}}} ).then(response => console.log(response))
+    Sales.update({_id: '619026eecdf6fb111fb34418'},{ $push: {sales: {$each: [req.body], $position: 0}}} ).then(response => console.log(response))
     req.flash("success_message", "You've successfully made a sale")
     res.redirect('/dashboard')
 })
