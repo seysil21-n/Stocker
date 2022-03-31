@@ -248,7 +248,8 @@ app.post('/createAccount', (req,res)=>{
 // manage inventory
 
 app.get("/manageInventory", (req,res)=>{
-    Stock.find({}).then((response)=> {
+    Stock.find({})
+    .then((response)=> {
         console.log(response)
         res.render("manageInventory", {response:response})
         
