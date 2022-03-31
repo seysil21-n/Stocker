@@ -17,7 +17,7 @@ services:
   mongo:
     container_name: mongo
     image: mongo
-    ports: 
+    ports:  
       - '27018:27017'
     volumes:
       - ./stocker-data:/data/db
